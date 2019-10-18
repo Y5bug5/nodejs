@@ -1,0 +1,80 @@
+<% include ./layout/header.ejs %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>索引</th>
+      <th>姓名</th>
+      <th>性别</th>
+      <th>留言</th>
+      <th>时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%pageData.map((item,index)=>{%>
+    <tr>
+      <th scope="row"><%=index+1%></th>
+      <td><%=item.uname%></td>
+      <td><%=item.sex?item.sex:setSex(item.sex)%></td> 
+      <td><%=item.test%></td>
+      <td><%=item.createTime%></td>
+      <td mark="<%= item._id%>">
+        <button type="button" class="btn btn-success"><a href="/users/add?_id=<%= item.id%>">编辑</a></button>
+      </td>
+      <td>
+          <button type="button" class="btn btn-danger del" _id="<%= item.id%>">删除</button>
+      </td>
+
+    </tr>
+    <%})%>
+  </tbody>
+</table>
+<div class="info" allNum="<%= allNum%>" pageSize="<%= pageSize%>" page="<%= page%>"></div>
+<%
+  function setSex(num){
+    console.log(num)
+    if(num==0){
+      return "男";
+    }else if(num==1){
+      return "女";
+    }else if(num==2){
+      return "保密";
+    }
+  }
+
+%>
+<% include ./layout/footer.ejs %>
+<script>
+  // 初始化 分页
+var page_s1=createPage('.info');
+//转换为数字
+var page=parseInt($('.info').attr("page"));
+// 设置分页
+setPage(page_s1,{
+       pageTotal: $('.info').attr("allNum"), // 数据总条数   
+       pageSize: $('.info').attr("pageSize"),    // 每页显示条数
+       pageCurrent: page,  //  当前页
+       maxBtnNum: 5,   // 最多按钮个数  （最少5个）
+       change:function(e){   // 页数变化回调函数（返回当前页码）
+          //  $('#info').html(e)
+          location.href="/?page="+e;
+       }, 
+ })
+ $(function(){
+   $(".del").click(function(){
+     var _this=$(this);
+     $.ajax({
+        method:"POST",
+        url:"/users/del",
+        data:{_id:$(this).attr("_id")},
+        success:function(res){
+            if(res.code==1){
+              // location.reload();
+              _this.parent().parent().remove();
+            
+            }
+        }
+      });
+   })
+ })
+</script>

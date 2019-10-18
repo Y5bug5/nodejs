@@ -1,0 +1,68 @@
+<% include ./layout/header.ejs%>
+<form action="users/add">
+    <div class="form-group">
+        <label for="a">用户名</label>
+        <input 
+        type="text" 
+        class="form-control uname" 
+        id="a" name="uname"
+        value="<%= info?info.uname:''%>"  
+        placeholder="用户名">
+    </div>
+    <div class="form-group">
+            <label for="b">留言</label>
+            <input 
+            type="text" 
+            class="form-control 
+            test" id="b" 
+            name="test" 
+            value="<%= info?info.test:''%>"  
+            placeholder="留言">
+        </div>
+    <div class="sex">
+        <label>
+            <%if(info){
+                    ["男","女","保密"].map((item,index)=>{%>
+                    <input type="radio" name="sex" value="<%=index%>" <%= index==info.sex?"checked":''%>> <%=item%>                 
+                <% })}else{%>
+            <input type="radio" name="sex" value="0" ><span>男</span>
+            <input type="radio" name="sex" value="1"><span>女</span>
+            <input type="radio" name="sex" value="2" checked><span>保密</span>
+            <%}%>
+           
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">提交</button>
+    <div style="height: 100px" class="info"></div>
+</form>
+
+<% include ./layout/footer.ejs%>
+<script>
+        $(function(){
+            $('.btn').click((e)=>{
+                e.preventDefault();
+                var tempData={
+                    uname:$(".uname").val(),
+                    test:$('.test').val()?$('.test').val():"见到你很高兴",    
+                    sex:$("input:radio[name='sex']:checked").val(),
+                    _id:location.search.slice(5)
+                };
+            $.ajax({
+                method:"POST",
+                url:"/users/add",
+                data:tempData,
+                success:function(res){
+                    var str="";
+            if(res.code=="1"){
+              $(".info").html(`<div class="alert alert-success" role="alert">${res.msg}</div>`);
+              setTimeout(()=>{
+                location.href="/";
+              },500)
+            }else{
+              $(".info").html(`<div class="alert alert-danger" role="alert">${res.msg}</div>`)
+             }
+            }
+         })
+      })
+    })
+    </script>
