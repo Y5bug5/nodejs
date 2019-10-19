@@ -23,11 +23,11 @@
         <label>
             <%if(info){
                     ["男","女","保密"].map((item,index)=>{%>
-                    <input type="radio" name="sex" value="<%=index%>" <%= index==info.sex?"checked":''%>> <%=item%>                 
+                    <input type="radio" name="sex" value="<%=item%>" <%= item==info.sex?"checked":''%>> <%=item%>                 
                 <% })}else{%>
-            <input type="radio" name="sex" value="0" ><span>男</span>
-            <input type="radio" name="sex" value="1"><span>女</span>
-            <input type="radio" name="sex" value="2" checked><span>保密</span>
+            <input type="radio" name="sex" value="男" ><span>男</span>
+            <input type="radio" name="sex" value="女"><span>女</span>
+            <input type="radio" name="sex" value="保密" checked><span>保密</span>
             <%}%>
            
         </label>

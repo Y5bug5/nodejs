@@ -8,6 +8,7 @@
       <th>留言</th>
       <th>时间</th>
       <th>操作</th>
+      <th>删除</th>
     </tr>
   </thead>
   <tbody>
@@ -15,14 +16,14 @@
     <tr>
       <th scope="row"><%=index+1%></th>
       <td><%=item.uname%></td>
-      <td><%=item.sex?item.sex:setSex(item.sex)%></td> 
+       <td><%=item.sex%></td>    <!--?item.sex:setSex(item.sex) --><!--当sex为数字时，使用本函数调用-->>
       <td><%=item.test%></td>
-      <td><%=item.createTime%></td>
+      <td><%=item.createTime.toLocaleString()%></td>
       <td mark="<%= item._id%>">
-        <button type="button" class="btn btn-success"><a href="/users/add?_id=<%= item.id%>">编辑</a></button>
+         <button type="button" class="btn btn-success"><a href="/users/add?_id=<%= item.id%>">编辑</a></button> <!--  获取id 和class  -->
       </td>
       <td>
-          <button type="button" class="btn btn-danger del" _id="<%= item.id%>">删除</button>
+          <button type="button" class="btn btn-danger del" _id="<%= item.id%>">删除</button>   <!--获取id 和class -->
       </td>
 
     </tr>
@@ -30,8 +31,10 @@
   </tbody>
 </table>
 <div class="info" allNum="<%= allNum%>" pageSize="<%= pageSize%>" page="<%= page%>"></div>
-<%
-  function setSex(num){
+<!-- <%
+  //当sex为数字时，使用本函数，并调用转换为汉字，现在使用的是将sex中的value值直接写成汉字
+    //使用本函数将会导致只有'男'可以显示，要是使用可以改一下，现无办法
+   function setSex(num){
     console.log(num)
     if(num==0){
       return "男";
@@ -40,9 +43,9 @@
     }else if(num==2){
       return "保密";
     }
-  }
+  } 
 
-%>
+%> -->
 <% include ./layout/footer.ejs %>
 <script>
   // 初始化 分页
@@ -70,7 +73,7 @@ setPage(page_s1,{
         success:function(res){
             if(res.code==1){
               // location.reload();
-              _this.parent().parent().remove();
+              _this.parent().parent().remove(); //  删除本元素的父亲的父亲，也就是将本行删除
             
             }
         }

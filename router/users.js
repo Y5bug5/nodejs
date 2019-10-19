@@ -4,8 +4,9 @@ var router =express.Router();
 var usersModel = require('../model/users');
 router.get("/add",(req,res)=>{ 
    var _id=mongoose.Types.ObjectId(req.query._id);
-    usersModel.find({_id},(err,info)=>{  
-        res.render("add",{info:info[0]});
+    usersModel.find({_id},(err,info)=>{ 
+        res.render("add",{info:info[0]});   //将
+        
     }) 
 })
 router.post("/add",(req,res)=>{  
@@ -13,7 +14,7 @@ router.post("/add",(req,res)=>{
     var temp={
         uname:body.uname,
         sex:body.sex,
-        test:body.test
+        test:body.test     
     }
     if(body._id){
         var _id=mongoose.Types.ObjectId(body._id);

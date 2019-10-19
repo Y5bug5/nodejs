@@ -5,8 +5,8 @@ var usersSchema = new mongoose.Schema({
         // unique:true
     },
     sex:{
-        type:Number,
-        default:2 
+        type:String,
+        default:"保密" 
     },
     test:{
         type:String,
@@ -18,5 +18,5 @@ var usersSchema = new mongoose.Schema({
     }
 },{versionKey:false})
 //集合 users
-module.exports= mongoose.model("users",usersSchema);
+module.exports= mongoose.model("users",usersSchema);    //暴露出一个接口
 //json  深拷贝
